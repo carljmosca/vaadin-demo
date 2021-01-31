@@ -42,3 +42,8 @@ Once the Docker image is correctly built, you can test it locally using
 ```
 docker run -p 8080:8080 myapp:latest
 ```
+
+In order to build the Docker image, access to the Red Hat registry is achieved using a service account which can be created [here](https://access.redhat.com/terms-based-registry/#/accounts)
+
+
+
