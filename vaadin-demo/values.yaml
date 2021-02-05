@@ -5,10 +5,12 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: ghcr.io/carljmosca/vaadin-demo
+  tag: 1.0-snapshot
   pullPolicy: IfNotPresent
 
-imagePullSecrets: []
+imagePullSecrets:
+  - name: githubregistry
 nameOverride: ""
 fullnameOverride: ""
 

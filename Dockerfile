@@ -18,7 +18,6 @@ COPY --chown=myuser:myuser src src
 COPY --chown=myuser:myuser frontend frontend
 COPY --chown=myuser:myuser package.json pnpm-lock.yaml webpack.config.js ./
 
-
 # Build the production package, assuming that we validated the version before so no need for running tests again
 RUN mvn clean package -DskipTests -Pproduction
 
