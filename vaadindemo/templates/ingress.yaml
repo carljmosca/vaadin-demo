@@ -32,8 +32,8 @@ spec:
       http:
         paths:
         {{- range .paths }}
-          - path: {{ . }}
-            pathType: ImplementationSpecific
+          - path: {{ .path }}
+            pathType: Prefix
             backend:
               serviceName: {{ .backend.fullName }}
               servicePort: {{ .backend.svcPort }}
