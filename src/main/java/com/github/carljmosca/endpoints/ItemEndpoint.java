@@ -16,7 +16,6 @@ import java.util.ArrayList;
  * @author moscac
  */
 @Endpoint
-@AnonymousAllowed
 public class ItemEndpoint {
 
     List<Item> result = new ArrayList<>();
@@ -25,6 +24,7 @@ public class ItemEndpoint {
         populateList();
     }
 
+    @AnonymousAllowed
     public List<Item> findAll(String filter, int limit) {
 
         return result;

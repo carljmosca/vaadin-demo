@@ -5,8 +5,8 @@
 replicaCount: 2
 
 image:
-  repository: ghcr.io/carljmosca/vaadin-demo
-  tag: 1.0-snapshot
+  repository: ghcr.io/carljmosca/vaadin-demo@sha256
+  tag: "c1bf4c274377a958029c1b8b5c298f76e9504abff58515854e9cfbea43b7782c"
   pullPolicy: IfNotPresent
 
 imagePullSecrets:
@@ -42,7 +42,7 @@ service:
 ingress:
   enabled: true
   annotations:
-    # kubernetes.io/ingress.class: nginx
+    kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
     -
