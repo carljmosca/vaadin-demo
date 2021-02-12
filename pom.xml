@@ -9,12 +9,14 @@
     <properties>
         <java.version>11</java.version>
         <vaadin.version>18.0.5</vaadin.version>
+        <version.hazelcast>3.12.6</version.hazelcast>
+        <version.hazelcast-kubernetes>1.5.1</version.hazelcast-kubernetes>
     </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.0</version>
+        <version>2.4.2</version>
     </parent>
 
     <repositories>
@@ -93,6 +95,15 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast-kubernetes</artifactId>
+            <version>${version.hazelcast-kubernetes}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -102,7 +113,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <!-- Clean build and startup time for Vaadin apps sometimes may exceed
-                     the default Spring Boot's 30sec timeout.  -->
+                the default Spring Boot's 30sec timeout.  -->
                 <configuration>
                     <wait>500</wait>
                     <maxAttempts>240</maxAttempts>
