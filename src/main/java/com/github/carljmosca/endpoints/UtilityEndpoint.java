@@ -18,10 +18,11 @@ import java.util.logging.Logger;
  */
 @Endpoint
 public class UtilityEndpoint {
-    
+
     @AnonymousAllowed
     public String getSysInfo() {
-        return String.format("Running on %s", getHostIp());
+        
+        return String.format("you're running on %s", getHostIp());
     }
 
     private String getHostIp() {

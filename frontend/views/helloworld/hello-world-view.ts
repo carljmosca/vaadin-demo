@@ -1,11 +1,18 @@
 import { showNotification } from '@vaadin/flow-frontend/a-notification';
 import '@vaadin/vaadin-button';
 import '@vaadin/vaadin-text-field';
-import { css, customElement, html, LitElement } from 'lit-element';
+import { css, customElement, html, LitElement, internalProperty } from 'lit-element';
+import { getSysInfo } from '../../generated/UtilityEndpoint';
 
 @customElement('hello-world-view')
 export class HelloWorldView extends LitElement {
   name: string = '';
+  @internalProperty()
+  sysInfo: string = '';
+
+  async firstUpdated() {
+    this.sysInfo = await getSysInfo();
+  }
 
   static get styles() {
     return css`
@@ -19,6 +26,7 @@ export class HelloWorldView extends LitElement {
     return html`
       <vaadin-text-field label="Your name" @value-changed="${this.nameChanged}"></vaadin-text-field>
       <vaadin-button @click="${this.sayHello}">Say hello</vaadin-button>
+      <div>${this.sysInfo}</div>
     `;
   }
   nameChanged(e: CustomEvent) {
@@ -28,4 +36,5 @@ export class HelloWorldView extends LitElement {
   sayHello() {
     showNotification('Hello ' + this.name);
   }
+
 }
