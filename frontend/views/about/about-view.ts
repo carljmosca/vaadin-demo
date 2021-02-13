@@ -1,7 +1,15 @@
-import { css, customElement, html, LitElement } from 'lit-element';
-
+import { css, customElement, html, LitElement, internalProperty } from 'lit-element';
+import { getSysInfo } from "../../generated/UtilityEndpoint";
 @customElement('about-view')
 export class AboutView extends LitElement {
+
+  @internalProperty()
+  sysinfo: String = "";
+
+  async firstUpdated() {
+    this.sysinfo = await getSysInfo();
+  }
+
   static get styles() {
     return css`
       :host {
@@ -11,6 +19,6 @@ export class AboutView extends LitElement {
   }
 
   render() {
-    return html`<div>Content placeholder</div>`;
+    return html`<div>System: ${this.sysinfo}</div>`;
   }
 }

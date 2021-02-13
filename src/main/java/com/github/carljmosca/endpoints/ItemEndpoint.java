@@ -6,18 +6,10 @@
 package com.github.carljmosca.endpoints;
 
 import com.github.carljmosca.pojo.Item;
-import com.hazelcast.client.HazelcastClient;
-import com.hazelcast.core.HazelcastInstance;
 import com.vaadin.flow.server.connect.Endpoint;
 import com.vaadin.flow.server.connect.auth.AnonymousAllowed;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -42,7 +34,7 @@ public class ItemEndpoint {
             String likes, String comments, String shares) {
         Item item = new Item();
         item.setImg(img);
-        item.setName(name + "(" + getHostIp() + ")");
+        item.setName(name);
         item.setDate(date);
         item.setPost(posts);
         item.setLikes(likes);
@@ -109,13 +101,4 @@ public class ItemEndpoint {
 
     }
 
-    private String getHostIp() {
-        String ip = "";
-        try {
-            ip = InetAddress.getLocalHost().getHostAddress();
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(ItemEndpoint.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return ip;
-    }
 }

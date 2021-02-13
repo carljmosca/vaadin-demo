@@ -6,7 +6,7 @@ replicaCount: 2
 
 image:
   repository: ghcr.io/carljmosca/vaadin-demo@sha256
-  tag: "7afdb729b129f67d7415083e9b705f2c82753760988a88ce251feb062b48c133"
+  tag: "dc14895fd3297da14e2d36d3c1c447a102c62dd202fe77751769552c7651c190"
   pullPolicy: IfNotPresent
 
 imagePullSecrets:
@@ -62,12 +62,12 @@ resources:
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 1000m
-  #   memory: 2000Mi
-  # requests:
-  #   cpu: 500m
-  #   memory: 512Mi
+  limits:
+    cpu: 1000m
+    memory: 2000Mi
+  requests:
+    cpu: 500m
+    memory: 1000Mi
 
 nodeSelector: {}
 
