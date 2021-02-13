@@ -6,7 +6,7 @@ replicaCount: 2
 
 image:
   repository: ghcr.io/carljmosca/vaadin-demo@sha256
-  tag: "dc14895fd3297da14e2d36d3c1c447a102c62dd202fe77751769552c7651c190"
+  tag: "5b773a5ad1fcd3c5d3970b436b2d458d294b77fe1fbe7591e7d989f67ae8166d"
   pullPolicy: IfNotPresent
 
 imagePullSecrets:
@@ -63,11 +63,11 @@ resources:
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
-    cpu: 1000m
-    memory: 2000Mi
-  requests:
     cpu: 500m
     memory: 1000Mi
+  requests:
+    cpu: 250m
+    memory: 500Mi
 
 nodeSelector: {}
 
