@@ -1,6 +1,7 @@
 import '@polymer/iron-icon/iron-icon.js';
 import '@vaadin/vaadin-grid/all-imports.js';
 import '@vaadin/vaadin-icons/vaadin-icons.js';
+import '@vaadin/vaadin-combo-box/vaadin-combo-box.js';
 import '@vaadin/vaadin-lumo-styles/all-imports.js';
 import '@vaadin/vaadin-ordered-layout/vaadin-horizontal-layout.js';
 import '@vaadin/vaadin-ordered-layout/vaadin-vertical-layout.js';
@@ -22,6 +23,7 @@ export class CardListView extends LitElement {
 
   async firstUpdated() {
     this.items = await findAll("", 100);
+    this.selectedGroup.items = this.groups;
   }
   
   static get styles() {
@@ -104,9 +106,7 @@ export class CardListView extends LitElement {
       <vaadin-horizontal-layout>
         <vaadin-combo-box id='selectedGroup'
           @change=${this.selectGroup}
-          .items=${this.groups}
-          style="width: 100%;"
-          placeholder="Selection">
+          style="width: 100%;">
         </vaadin-combo-box>
       </vaadin-horizontal-layout>
       <vaadin-grid id="grid" theme="no-border no-row-borders" .items="${this.filteredItems}">
@@ -116,6 +116,7 @@ export class CardListView extends LitElement {
               <img src="[[item.img]]"></img>
               <vaadin-vertical-layout>
                 <vaadin-horizontal-layout theme="spacing-s" class="header">
+                  <span class="name">Group: [[item.group]]</span>
                   <span class="name">[[item.name]]</span>
                   <span class="date">[[item.date]]</span>
                 </vaadin-horizontal-layout>
@@ -129,7 +130,6 @@ export class CardListView extends LitElement {
                   <span class="shares">[[item.shares]]</span>
                 </vaadin-horizontal-layout>
               </vaadin-vertical-layout>
-              <vaadin-button>Like</vaadin-button>
             </vaadin-horizontal-layout>
           </template>
         </vaadin-grid-column>
@@ -144,7 +144,6 @@ export class CardListView extends LitElement {
 
   selectGroup() {
     this.filteredItems =  this.items.filter(i => i.group == this.selectedGroup.value);
-
   }
 
 }

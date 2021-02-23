@@ -97,7 +97,7 @@ public class ItemEndpoint {
                 "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document without relying on meaningful content (also called greeking).",
                 "1K",
                 "500",
-                "20", "2"
+                "20", "3"
         );
         addItem(
                 "https://randomuser.me/api/portraits/women/76.jpg",
@@ -106,7 +106,7 @@ public class ItemEndpoint {
                 "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document without relying on meaningful content (also called greeking).",
                 "1K",
                 "500",
-                null, "1"
+                null, "3"
         );
     }
 
