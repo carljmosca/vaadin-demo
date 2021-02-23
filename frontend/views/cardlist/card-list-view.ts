@@ -1,31 +1,101 @@
-import '@polymer/iron-icon/iron-icon.js';
-import '@vaadin/vaadin-grid/all-imports.js';
-import '@vaadin/vaadin-icons/vaadin-icons.js';
-import '@vaadin/vaadin-combo-box/vaadin-combo-box.js';
-import '@vaadin/vaadin-lumo-styles/all-imports.js';
-import '@vaadin/vaadin-ordered-layout/vaadin-horizontal-layout.js';
-import '@vaadin/vaadin-ordered-layout/vaadin-vertical-layout.js';
-import { css, customElement, html, LitElement, internalProperty, query } from 'lit-element';
+import "@polymer/iron-icon/iron-icon.js";
+import "@vaadin/vaadin-grid/all-imports.js";
+import "@vaadin/vaadin-icons/vaadin-icons.js";
+import "@vaadin/vaadin-combo-box/vaadin-combo-box.js";
+import "@vaadin/vaadin-lumo-styles/all-imports.js";
+import "@vaadin/vaadin-ordered-layout/vaadin-horizontal-layout.js";
+import "@vaadin/vaadin-ordered-layout/vaadin-vertical-layout.js";
+import "@vaadin/vaadin-grid";
+import "@vaadin/vaadin-grid/vaadin-grid-column";
+import {
+  css,
+  customElement,
+  html,
+  LitElement,
+  internalProperty,
+} from "lit-element";
+import { render } from "lit-html";
 import Item from "../../generated/com/github/carljmosca/pojo/Item";
 import { findAll } from "../../generated/ItemEndpoint";
-@customElement('card-list-view')
+import { GridColumnElement } from "@vaadin/vaadin-grid/vaadin-grid-column";
+import { GridItemModel } from "@vaadin/vaadin-grid";
+import { ComboBoxElement } from "@vaadin/vaadin-combo-box/vaadin-combo-box.js";
+
+@customElement("card-list-view")
 export class CardListView extends LitElement {
   @internalProperty()
-  filteredItems: Item[] = [];
-  items: Item[] = [];
-  @query('#selectedGroup')
-  private selectedGroup: any;
-  groups = [
-    {'label': 'Group 1', 'value': '1'},
-    {'label': 'Group 2', 'value': '2'},
-    {'label': 'Group 3', 'value': '3'}
-    ];
+  private filteredItems: Item[] = [];
+  private items: Item[] = [];
 
-  async firstUpdated() {
-    this.items = await findAll("", 100);
-    this.selectedGroup.items = this.groups;
+  private groups = [
+    { label: "Group 1", value: "1" },
+    { label: "Group 2", value: "2" },
+    { label: "Group 3", value: "3" },
+  ];
+
+  async connectedCallback() {
+    super.connectedCallback();
+    this.items = this.filteredItems = await findAll("", 100);
   }
-  
+
+  render() {
+    return html`
+      <vaadin-horizontal-layout>
+        <vaadin-combo-box
+          id="selectedGroup"
+          .items=${this.groups}
+          @change=${this.selectGroup}
+          style="width: 100%;"
+        >
+        </vaadin-combo-box>
+      </vaadin-horizontal-layout>
+      <vaadin-grid
+        id="grid"
+        theme="no-border no-row-borders"
+        .items="${this.filteredItems}"
+      >
+        <vaadin-grid-column .renderer=${this.columnRenderer}>
+        </vaadin-grid-column>
+      </vaadin-grid>
+    `;
+  }
+
+  selectGroup(e: { target: ComboBoxElement }) {
+    this.filteredItems = this.items.filter((i) => i.group === e.target.value);
+  }
+
+  columnRenderer(
+    root: HTMLElement,
+    _: GridColumnElement,
+    model: GridItemModel
+  ) {
+    const item = model.item as Item;
+    render(
+      html`
+        <vaadin-horizontal-layout theme="spacing-s" class="card">
+          <img src=${item.img} />
+          <vaadin-vertical-layout>
+            <vaadin-horizontal-layout theme="spacing-s" class="header">
+              <span class="name">Group: ${item.group}</span>
+              <span class="name">${item.name}</span>
+              <span class="date">${item.date}</span>
+            </vaadin-horizontal-layout>
+            <span class="post">${item.post}</span>
+            <vaadin-horizontal-layout theme="spacing-s" class="actions">
+              <iron-icon icon="vaadin:heart"></iron-icon>
+              <span class="likes">${item.likes}</span>
+              <iron-icon icon="vaadin:comment"></iron-icon>
+              <span class="comments">${item.comments}</span>
+              <iron-icon icon="vaadin:connect"></iron-icon>
+              <span class="shares">${item.shares}</span>
+            </vaadin-horizontal-layout>
+          </vaadin-vertical-layout>
+        </vaadin-horizontal-layout>
+      `,
+      root
+    );
+  }
+
   static get styles() {
     return [
       css`
@@ -99,51 +169,4 @@ export class CardListView extends LitElement {
       `,
     ];
   }
-
-  render() {
-
-    return html`
-      <vaadin-horizontal-layout>
-        <vaadin-combo-box id='selectedGroup'
-          @change=${this.selectGroup}
-          style="width: 100%;">
-        </vaadin-combo-box>
-      </vaadin-horizontal-layout>
-      <vaadin-grid id="grid" theme="no-border no-row-borders" .items="${this.filteredItems}">
-        <vaadin-grid-column>
-          <template>
-            <vaadin-horizontal-layout theme="spacing-s" class="card">
-              <img src="[[item.img]]"></img>
-              <vaadin-vertical-layout>
-                <vaadin-horizontal-layout theme="spacing-s" class="header">
-                  <span class="name">Group: [[item.group]]</span>
-                  <span class="name">[[item.name]]</span>
-                  <span class="date">[[item.date]]</span>
-                </vaadin-horizontal-layout>
-                <span class="post">[[item.post]]</span>
-                <vaadin-horizontal-layout theme="spacing-s" class="actions">
-                  <iron-icon icon="vaadin:heart"></iron-icon>
-                  <span class="likes">[[item.likes]]</span>
-                  <iron-icon icon="vaadin:comment"></iron-icon>
-                  <span class="comments">[[item.comments]]</span>
-                  <iron-icon icon="vaadin:connect"></iron-icon>
-                  <span class="shares">[[item.shares]]</span>
-                </vaadin-horizontal-layout>
-              </vaadin-vertical-layout>
-            </vaadin-horizontal-layout>
-          </template>
-        </vaadin-grid-column>
-      </vaadin-grid>
-    `;
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-
-  }
-
-  selectGroup() {
-    this.filteredItems =  this.items.filter(i => i.group == this.selectedGroup.value);
-  }
-
 }
