@@ -6,7 +6,7 @@ replicaCount: 2
 
 image:
   repository: ghcr.io/carljmosca/vaadin-demo@sha256
-  tag: "5b773a5ad1fcd3c5d3970b436b2d458d294b77fe1fbe7591e7d989f67ae8166d"
+  tag: "ad9927ff9894b8ef43c645ead33f944925286b4653d19cac008efcdea3a7ca64"
   pullPolicy: IfNotPresent
 
 imagePullSecrets:

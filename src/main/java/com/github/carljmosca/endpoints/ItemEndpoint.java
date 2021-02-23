@@ -31,7 +31,7 @@ public class ItemEndpoint {
     }
 
     private void addItem(String img, String name, String date, String posts,
-            String likes, String comments, String shares) {
+            String likes, String comments, String shares, String group) {
         Item item = new Item();
         item.setImg(img);
         item.setName(name);
@@ -40,6 +40,7 @@ public class ItemEndpoint {
         item.setLikes(likes);
         item.setComments(comments);
         item.setShares(shares);
+        item.setGroup(group);
         result.add(item);
     }
 
@@ -50,7 +51,7 @@ public class ItemEndpoint {
                 "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document without relying on meaningful content (also called greeking).",
                 "1K",
                 "500",
-                "20");
+                "20", "1");
         addItem(
                 "https://randomuser.me/api/portraits/women/42.jpg",
                 "Abagail Libbie",
@@ -58,7 +59,7 @@ public class ItemEndpoint {
                 "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document without relying on meaningful content (also called greeking).",
                 "1K",
                 "500",
-                "20"
+                "20", "2"
         );
         addItem(
                 "https://randomuser.me/api/portraits/men/24.jpg",
@@ -67,7 +68,7 @@ public class ItemEndpoint {
                 "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document without relying on meaningful content (also called greeking).",
                 "1K",
                 "500",
-                "20"
+                "20", "2"
         );
 
         addItem(
@@ -77,7 +78,7 @@ public class ItemEndpoint {
                 "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document without relying on meaningful content (also called greeking).",
                 "1K",
                 "500",
-                "20"
+                "20", "2"
         );
         addItem(
                 "https://randomuser.me/api/portraits/men/76.jpg",
@@ -86,7 +87,7 @@ public class ItemEndpoint {
                 "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document without relying on meaningful content (also called greeking).",
                 "1K",
                 "500",
-                "20"
+                "20", "2"
         );
 
         addItem(
@@ -96,9 +97,17 @@ public class ItemEndpoint {
                 "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document without relying on meaningful content (also called greeking).",
                 "1K",
                 "500",
-                "20"
+                "20", "2"
         );
-
+        addItem(
+                "https://randomuser.me/api/portraits/women/76.jpg",
+                null,
+                "Apr 17",
+                "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document without relying on meaningful content (also called greeking).",
+                "1K",
+                "500",
+                null, "1"
+        );
     }
 
 }

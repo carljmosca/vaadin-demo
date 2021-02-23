@@ -4,13 +4,21 @@ import '@vaadin/vaadin-icons/vaadin-icons.js';
 import '@vaadin/vaadin-lumo-styles/all-imports.js';
 import '@vaadin/vaadin-ordered-layout/vaadin-horizontal-layout.js';
 import '@vaadin/vaadin-ordered-layout/vaadin-vertical-layout.js';
-import { css, customElement, html, LitElement, internalProperty } from 'lit-element';
+import { css, customElement, html, LitElement, internalProperty, query } from 'lit-element';
 import Item from "../../generated/com/github/carljmosca/pojo/Item";
 import { findAll } from "../../generated/ItemEndpoint";
 @customElement('card-list-view')
 export class CardListView extends LitElement {
   @internalProperty()
+  filteredItems: Item[] = [];
   items: Item[] = [];
+  @query('#selectedGroup')
+  private selectedGroup: any;
+  groups = [
+    {'label': 'Group 1', 'value': '1'},
+    {'label': 'Group 2', 'value': '2'},
+    {'label': 'Group 3', 'value': '3'}
+    ];
 
   async firstUpdated() {
     this.items = await findAll("", 100);
@@ -93,7 +101,15 @@ export class CardListView extends LitElement {
   render() {
 
     return html`
-      <vaadin-grid id="grid" theme="no-border no-row-borders" .items="${this.items}">
+      <vaadin-horizontal-layout>
+        <vaadin-combo-box id='selectedGroup'
+          @change=${this.selectGroup}
+          .items=${this.groups}
+          style="width: 100%;"
+          placeholder="Selection">
+        </vaadin-combo-box>
+      </vaadin-horizontal-layout>
+      <vaadin-grid id="grid" theme="no-border no-row-borders" .items="${this.filteredItems}">
         <vaadin-grid-column>
           <template>
             <vaadin-horizontal-layout theme="spacing-s" class="card">
@@ -113,6 +129,7 @@ export class CardListView extends LitElement {
                   <span class="shares">[[item.shares]]</span>
                 </vaadin-horizontal-layout>
               </vaadin-vertical-layout>
+              <vaadin-button>Like</vaadin-button>
             </vaadin-horizontal-layout>
           </template>
         </vaadin-grid-column>
@@ -124,4 +141,10 @@ export class CardListView extends LitElement {
     super.connectedCallback();
 
   }
+
+  selectGroup() {
+    this.filteredItems =  this.items.filter(i => i.group == this.selectedGroup.value);
+
+  }
+
 }

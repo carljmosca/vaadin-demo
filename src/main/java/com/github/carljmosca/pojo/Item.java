@@ -5,18 +5,21 @@
  */
 package com.github.carljmosca.pojo;
 
+import java.util.Optional;
 /**
  *
  * @author moscac
  */
+
 public class Item {
     private String img;
-    private String name;
+    private Optional<String> name = Optional.empty();
     private String date;
     private String post;
     private String likes;
     private String comments;
-    private String shares;
+    private Optional<String> shares = Optional.empty();
+    private String group;
 
     public String getImg() {
         return img;
@@ -27,11 +30,11 @@ public class Item {
     }
 
     public String getName() {
-        return name;
+        return name.orElse("");
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = Optional.ofNullable(name);
     }
 
     public String getDate() {
@@ -67,11 +70,19 @@ public class Item {
     }
 
     public String getShares() {
-        return shares;
+        return shares.orElse("");
     }
 
     public void setShares(String shares) {
-        this.shares = shares;
+        this.shares = Optional.ofNullable(shares);
     }
     
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
 }
