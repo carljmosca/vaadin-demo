@@ -7,6 +7,10 @@ import "@vaadin/vaadin-ordered-layout/vaadin-horizontal-layout.js";
 import "@vaadin/vaadin-ordered-layout/vaadin-vertical-layout.js";
 import "@vaadin/vaadin-grid";
 import "@vaadin/vaadin-grid/vaadin-grid-column";
+import "@vaadin/vaadin-item/vaadin-item.js";
+import "@vaadin/vaadin-select";
+import "@vaadin/vaadin-list-box";
+import "@vaadin/vaadin-item";
 import {
   css,
   customElement,
@@ -15,27 +19,33 @@ import {
   internalProperty,
 } from "lit-element";
 import { render } from "lit-html";
+import { guard } from 'lit-html/directives/guard';
 import Item from "../../generated/com/github/carljmosca/pojo/Item";
-import { findAll } from "../../generated/ItemEndpoint";
+import Group from "../../generated/com/github/carljmosca/pojo/Group";
+import { findAll as findAllItems } from "../../generated/ItemEndpoint";
+import { findAll as findAllGroups } from "../../generated/GroupEndpoint";
 import { GridColumnElement } from "@vaadin/vaadin-grid/vaadin-grid-column";
 import { GridItemModel } from "@vaadin/vaadin-grid";
 import { ComboBoxElement } from "@vaadin/vaadin-combo-box/vaadin-combo-box.js";
-
+import { SelectElement } from "@vaadin/vaadin-select/vaadin-select.js";
 @customElement("card-list-view")
 export class CardListView extends LitElement {
   @internalProperty()
   private filteredItems: Item[] = [];
   private items: Item[] = [];
 
-  private groups = [
-    { label: "Group 1", value: "1" },
-    { label: "Group 2", value: "2" },
-    { label: "Group 3", value: "3" },
-  ];
+  @internalProperty()
+  private groups: Group[] = [];
+
+  constructor() {
+    super();
+  }
 
   async connectedCallback() {
     super.connectedCallback();
-    this.items = this.filteredItems = await findAll("", 100);
+    this.items = this.filteredItems = await findAllItems("", 100);
+    this.groups = await findAllGroups("", 100);
+    console.log(this.groups);
   }
 
   render() {
@@ -49,6 +59,22 @@ export class CardListView extends LitElement {
         >
         </vaadin-combo-box>
       </vaadin-horizontal-layout>
+      <vaadin-horizontal-layout>
+      <vaadin-select
+        value="recent"
+        style="width: 100%;"
+        @change=${this.selectGroup2}
+        .renderer=${guard([], () => (root: HTMLElement) =>
+        render(html`
+          <vaadin-list-box>
+          ${this.groups.map(item => html`
+          <vaadin-item value=${item.value}>${item.label}</vaadin-item>
+          `)}
+          </vaadin-list-box>
+          `,root))}
+        >  
+        </vaadin-select>
+      </vaadin-horizontal-layout>
       <vaadin-grid
         id="grid"
         theme="no-border no-row-borders"
@@ -61,6 +87,10 @@ export class CardListView extends LitElement {
   }
 
   selectGroup(e: { target: ComboBoxElement }) {
+    this.filteredItems = this.items.filter((i) => i.group === e.target.value);
+  }
+
+  selectGroup2(e: { target: SelectElement }) {
     this.filteredItems = this.items.filter((i) => i.group === e.target.value);
   }
 
